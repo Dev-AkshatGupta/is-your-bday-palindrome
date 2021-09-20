@@ -1,7 +1,7 @@
 function reverseStr(str) {
-    var listOfChars = str.split('');
+    var listOfChars = str.split("");
     var reverseListOfChars = listOfChars.reverse();
-    var reversedStr = reverseListOfChars.join('');
+    var reversedStr = reverseListOfChars.join("");
     return reversedStr;
 }
 
@@ -17,20 +17,21 @@ function convertDateToStr(date) {
         year: ""
     };
     if (date.day < 10) {
-        dateStr.day = "0" + dateStr.day;
+        dateStr.day = "0" + date.day;
     } else {
         dateStr.day = date.day.toString();
     }
     if (date.month < 10) {
-        dateStr.month = "0" + dateStr.month;
+        dateStr.month = "0" + date.month;
     } else {
         dateStr.month = date.month.toString();
     }
+    dateStr.year = date.year.toString();
     return dateStr;
 
 }
 
-function getAllDateFormats() {
+function getAllDateFormats(date) {
     var dateStr = convertDateToStr(date);
     var ddmmyyyy = dateStr.day + dateStr.month + dateStr.year;
     var mmddyyyy = dateStr.month + dateStr.day + dateStr.year;
@@ -77,58 +78,68 @@ function getNextDate(date) {
             if (day > 29) {
                 day = 1;
                 month++;
-            } else(day > 28)
-            {
+            }
+        } else {
+            if (day > 28) {
                 day = 1;
                 month++;
             }
-        } else {
-            if (day > dayInMonth[month - 1]) {
-                day = 1;
-                month++
-            }
         }
-        if (month > 12) {
-            month = 1;
-            year++;
+    } else {
+        if (day > dayInMonth[month - 1]) {
+            day = 1;
+            month++
         }
-
     }
+    if (month > 12) {
+        month = 1;
+        year++;
+    }
+
+
     return {
         day: day,
         month: month,
         year: year
     };
 }
-function getNextPalindromeDate(date){
-var ctr=0;
-var nextDate=getNextDate(date);
-while(1){
-    ctr++;
-    var isPalindrome=checkPalindromeForAllDateFormats(nextDate);
-    if(isPalindrome){break;}
-    nextDate=getNextDate(nextDate);
+
+function getNextPalindromeDate(date) {
+    var ctr = 0;
+    var nextDate = getNextDate(date);
+    while (1) {
+        ctr++;
+        var isPalindrome = checkPalindromeForAllDateFormats(nextDate);
+        if (isPalindrome) {
+            break;
+        }
+        nextDate = getNextDate(nextDate);
+    }
+    return [ctr, nextDate];
 }
-return[ctr,nextDate];
-}
 
-const input=document.querySelector("birthday-input");
-const outputEl=document.querySelector("#output");
-const button=document.querySelector("#check-button");
+const input = document.querySelector("#birthday-input");
+const outputEl = document.querySelector("#output");
+const button = document.querySelector("#check-button");
 
-button.addEventListener("click",clickHandler)
+button.addEventListener("click", clickHandler)
 
-function clickHandler(e){
-    var bdayStr=input.value;
-    if(bdayStr!=="")
-    {
-        var listOfDate=bdayStr.split("-");
-        var date={day:Number(listOfDate[2]),month:Number(listOfDate[1]),year:Number(listOfDate[0])};
-        var isPalindrome=checkPalindromeForAllDateFormats(date);
-        if(isPalinDrome){outputEl.innerText="yay!! your b,day is palindrome"}
-        else{
-            var[ctr,nextDate]=getNextPalindromeDate(date);
-            outputEl.innerText='the next palindrome date is'+nextDate.day+"-"+nextDate.month+"-"+nextDate.year+"you are far from palindrome next date with"+ctr+"days";         }
+function clickHandler(e) {
+    var bdayStr = input.value;
+    if (bdayStr !== "") {
+        var listOfDate = bdayStr.split("-");
+        var date = {
+            day: Number(listOfDate[2]),
+            month: Number(listOfDate[1]),
+            year: Number(listOfDate[0])
+        };
+        var isPalindrome = checkPalindromeForAllDateFormats(date);
+        if (isPalindrome) {
+            outputEl.innerText = "yay!! your b,day is palindrome"
+        } else {
+            var [ctr, nextDate] = getNextPalindromeDate(date);
+            outputEl.innerText = `The nearest palindrome date is ${nextDate.day}-${nextDate.month}-${nextDate.year}, you missed by ${ctr} days.`;;
+        }
     }
 
 }
