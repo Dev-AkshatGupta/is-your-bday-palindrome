@@ -22,3 +22,26 @@ text-align: center;
 #output{
   color: var(--primary-color);
 }
+.footer-list {
+  list-style: none;
+  
+}
+
+.list-item {
+  text-align: center;
+  display: inline;
+}
+
+.footer {
+  text-align: center;
+
+}
+
+
+
+
+.link {
+  text-decoration: none;
+  padding: .5rem 1rem;
+  color: var(--primary-color)
+}
